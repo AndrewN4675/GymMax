@@ -1,7 +1,6 @@
-
 ---
 name: User Story
-about: This template is for creating user stories
+about: User story template with Gherkin syntax
 title: ''
 labels: ''
 assignees: ''
