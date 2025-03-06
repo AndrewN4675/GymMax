@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { Form } from './form';
 import { SubmitButton } from './submit-button';
-//import { signIn } from './auth'; // TODO:
-
+import { Authenticate } from './auth'
 
 export default function Login() {
   return (
@@ -17,20 +16,28 @@ export default function Login() {
         <Form
           action={async (formData: FormData) => {
             'use server';
-            /*TODO: await signIn('credentials', {
-              redirectTo: '/protected',
-              email: formData.get('email') as string,
-              password: formData.get('password') as string,
-            });*/
+            const email = formData.get('email') as string;
+            const password = formData.get('password') as string;
+
+            try {
+              await Authenticate(email, password); // Call the signIn function here
+              console.log('Login successful!');
+              // Redirect to the dashboard or a protected page after login success
+            } catch (error) {
+              console.error('Login failed:', error);
+              //alert(error.message); // Show the error message to the user
+              alert("Authentication failed");
+            }
           }}
         >
             
           <SubmitButton>Sign in</SubmitButton>
+
+          
+
           <p className="text-center text-sm text-gray-600">
             {"Don't have an account? "}
-            <Link href="/register" className="font-semibold text-gray-800 underline">
-              Sign up
-            </Link>
+            <Link href="/register" className="font-semibold text-gray-800 underline"> Sign up </Link>
             {' for free.'}
           </p>
         </Form>
