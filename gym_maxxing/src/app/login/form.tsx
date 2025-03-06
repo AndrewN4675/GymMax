@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { neon } from '@neondatabase/serverless';
 
 export function Form({
     action,
@@ -22,7 +23,7 @@ export function Form({
           </label>
           <input
             id="email"
-            name="email"
+            name="email" 
             type="email"
             placeholder="somebody@example.com"
             autoComplete="email"
