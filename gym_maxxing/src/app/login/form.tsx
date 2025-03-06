@@ -22,7 +22,7 @@ export function Form({
           </label>
           <input
             id="email"
-            name="email"
+            name="email" 
             type="email"
             placeholder="somebody@example.com"
             autoComplete="email"
