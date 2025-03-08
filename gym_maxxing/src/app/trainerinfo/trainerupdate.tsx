@@ -1,6 +1,8 @@
+"use server"
 import { neon } from '@neondatabase/serverless'; // used for database querying 
 import { redirect } from 'next/navigation'
 
+console.log("URL: " + `${process.env.DATABASE_URL}`);
 const sql = neon(`${process.env.DATABASE_URL}`);
 
 export async function updateTrainerInfo(trainers: any) {

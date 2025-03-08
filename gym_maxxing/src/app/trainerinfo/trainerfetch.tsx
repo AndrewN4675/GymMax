@@ -1,7 +1,7 @@
-"use server";
-
+"use server"
 import { neon } from '@neondatabase/serverless';
 
+console.log("URL: " + `${process.env.DATABASE_URL}`);
 const sql = neon(`${process.env.DATABASE_URL}`);
 
 export async function FetchTrainers() {
