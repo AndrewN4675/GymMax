@@ -1,7 +1,7 @@
 import { neon } from '@neondatabase/serverless'; // used for database querying 
 import { redirect } from 'next/navigation'
 
-const sql = neon(`${process.env.NEXT_PUBLIC_DATABASE_URL}`);
+const sql = neon(`${process.env.DATABASE_URL}`);
 
 export async function updateTrainerInfo(trainers: any) {
     try {

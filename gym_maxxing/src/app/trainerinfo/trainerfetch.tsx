@@ -1,6 +1,6 @@
 import { neon } from '@neondatabase/serverless';
 
-const sql = neon(`${process.env.NEXT_PUBLIC_DATABASE_URL}`);
+const sql = neon(`${process.env.DATABASE_URL}`);
 
 export async function FetchTrainers() {
     try {
