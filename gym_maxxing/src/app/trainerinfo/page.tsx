@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import Styles from './page.module.css';
 import { FetchTrainers } from './trainerfetch'
+import { updateTrainerInfo } from './trainerupdate'
 import { useEffect, useState } from "react";
 
 type Trainer = {
@@ -24,6 +25,35 @@ export default function Login() {
       .then((data: Trainer[]) => setTrainers(data))
       .catch((err) => console.error("Error loading trainers:", err));
   }, []);
+
+
+  const handleChange = (trainerId: number, field: string, newValue: string) => {
+    const updatedTrainers = trainers.map((trainer) => {
+      if (trainer.TrainerID === trainerId) {
+        return {...trainer, [field]: newValue, };
+      }
+      return trainer;
+    });
+
+    setTrainers(updatedTrainers);
+  };
+
+  const handleSubmitChanges = async () => {
+    try {
+      // Update the trainers
+      const response = await updateTrainerInfo(trainers);
+
+
+      if (response.success) {
+        alert('Trainer information updated successfully!');
+      } else {
+        alert('Failed to update trainer information.');
+      }
+    } catch (error) {
+      console.error('Error submitting changes:', error);
+      alert('Error submitting changes.');
+    }
+  };
 
   return (
     <div className={Styles.page}>
@@ -53,13 +83,25 @@ export default function Login() {
           <h2>Our Features</h2>
           {trainers.map((trainer) => (
             <div key={trainer.TrainerID} className={Styles.featureCard}>
-              <h3>Name: {trainer.FirstName} {trainer.LastName}</h3>
-              <p>Trainer ID: {trainer.TrainerID}</p>
-              <p>Expertise: {trainer.Expertise}</p>
-              <p>Phone number: {trainer.PhoneNumber}</p>
-              <p>Email: {trainer.Email}</p>
+              <h3>Name: 
+                <input type="text" value={trainer.FirstName} onChange={(e) => handleChange(trainer.TrainerID, 'FirstName', e.target.value)}/>
+                <input type="text" value={trainer.LastName} onChange={(e) => handleChange(trainer.TrainerID, 'LastName', e.target.value)}/>
+              </h3>
+              <p>Trainer ID: 
+                <input type="text" value={trainer.TrainerID} onChange={(e) => handleChange(trainer.TrainerID, 'TrainerID', e.target.value)}/>
+              </p>
+              <p>Expertise: 
+                <input type="text" value={trainer.Expertise} onChange={(e) => handleChange(trainer.TrainerID, 'Expertise', e.target.value)}/>
+              </p>
+              <p>Phone number: 
+                <input type="text" value={trainer.PhoneNumber} onChange={(e) => handleChange(trainer.TrainerID, 'PhoneNumber', e.target.value)}/>
+              </p>
+              <p>Email: 
+                <input type="text" value={trainer.Email} onChange={(e) => handleChange(trainer.TrainerID, 'Email', e.target.value)}/>
+              </p>
             </div>
           ))}
+          <button onClick={handleSubmitChanges} className={Styles.ctaButton}>Submit Changes</button>
         </section>
       </main>
 
