@@ -2,11 +2,11 @@
 
 import { neon } from '@neondatabase/serverless';
 
-const sql = neon(`${process.env.DATABASE_URL}`);
+const sql = neon(`${process.env.NEXT_PUBLIC_DATABASE_URL}`);
 
 export async function FetchTrainers() {
     try {
-        const trainers = await sql`SELECT * FROM Trainers`;
+        const trainers = await sql`SELECT * FROM Trainer`;
         return trainers.map((trainer: any) => ({
             TrainerID: trainer.trainerid,
             FirstName: trainer.firstname,

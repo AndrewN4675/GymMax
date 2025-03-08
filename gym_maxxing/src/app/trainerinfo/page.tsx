@@ -52,26 +52,14 @@ export default function Login() {
         <section className={Styles.features}>
           <h2>Our Features</h2>
           {trainers.map((trainer) => (
-            <li key={trainer.TrainerID} className={Styles.featureCard}>
+            <div key={trainer.TrainerID} className={Styles.featureCard}>
               <h3>Name: {trainer.FirstName} {trainer.LastName}</h3>
               <p>Trainer ID: {trainer.TrainerID}</p>
               <p>Expertise: {trainer.Expertise}</p>
               <p>Phone number: {trainer.PhoneNumber}</p>
               <p>Email: {trainer.Email}</p>
-            </li>
+            </div>
           ))}
-          <div className={Styles.featureCard}>
-            <h3>Membership Management</h3>
-            <p>Manage your gym membership plans and payments.</p>
-          </div>
-          <div className={Styles.featureCard}>
-            <h3>Class Scheduling</h3>
-            <p>Book and schedule fitness classes.</p>
-          </div>
-          <div className={Styles.featureCard}>
-            <h3>Trainer Profiles</h3>
-            <p>Explore trainer profiles.</p>
-          </div>
         </section>
       </main>
 
