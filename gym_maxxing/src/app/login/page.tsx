@@ -1,7 +1,8 @@
+import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Form } from './form';
 import { SubmitButton } from './submit-button';
-import { Authenticate } from './auth'
+import { Authenticate } from './auth';
 
 export default function Login() {
   return (
@@ -18,22 +19,18 @@ export default function Login() {
             'use server';
             const email = formData.get('email') as string;
             const password = formData.get('password') as string;
-
-            try {
-              await Authenticate(email, password); // Call the signIn function here
-              console.log('Login successful!');
-              // Redirect to the dashboard or a protected page after login success
-            } catch (error) {
-              console.error('Login failed:', error);
-              //alert(error.message); // Show the error message to the user
-              alert("Authentication failed");
+              
+            console.log("Attempting to authenticate user");
+          
+            const result = await Authenticate(email, password); // Authenticate the users inputs
+        
+            if(result.redirect) { // Redirect user to page that authentication determined
+              redirect(result.redirect);
             }
           }}
         >
-            
-          <SubmitButton>Sign in</SubmitButton>
 
-          
+          <SubmitButton>Sign in</SubmitButton>
 
           <p className="text-center text-sm text-gray-600">
             {"Don't have an account? "}
