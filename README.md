@@ -11,3 +11,8 @@ Derek Williams - Project Leader<br />
 Calvin Wieland<br />
 Philip Rickey<br />
 Andrew Neal<br />
+
+## Tech Stack
+- Deployment: Vercel at https://gymmax.vercel.app/
+- Database: Neon Serverless Postgres
+- Next.js with Typescript
