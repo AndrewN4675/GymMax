@@ -1,14 +1,15 @@
 import { neon } from '@neondatabase/serverless'; // used for database querying 
 
-export async function Authenticate(email: string, password: string) {
+export async function Authenticate(id: string, password: string) {
     const sql = neon(`${process.env.DATABASE_URL}`);
 
-    email = email.toLowerCase(); // convert user input email to match database storing system
+    id = id.toLowerCase(); // convert user input email to match database storing system
     
     const result = await sql` 
     SELECT user_password 
     FROM Member 
-    WHERE email = ${email};`;
+    WHERE email = ${id}
+    OR username = ${id};`;
     
     if(result.length === 0) {
         return {success: false, redirect: '/register'}

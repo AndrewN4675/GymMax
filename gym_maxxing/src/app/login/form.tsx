@@ -18,12 +18,12 @@ export function Form({
             className="block text-xs text-gray-600
             text-md"
           >
-            Email Address
+            Email or Username
           </label>
           <input
-            id="email"
-            name="email" 
-            type="email"
+            id="identification"
+            name="identification" 
+            type="text"
             placeholder="somebody@example.com"
             autoComplete="email"
             required

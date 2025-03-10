@@ -17,12 +17,12 @@ export default function Login() {
         <Form
           action={async (formData: FormData) => {
             'use server';
-            const email = formData.get('email') as string;
+            const id = formData.get('identification') as string;
             const password = formData.get('password') as string;
               
             console.log("Attempting to authenticate user");
           
-            const result = await Authenticate(email, password); // Authenticate the users inputs
+            const result = await Authenticate(id, password); // Authenticate the users inputs
         
             if(result.redirect) { // Redirect user to page that authentication determined
               redirect(result.redirect);
