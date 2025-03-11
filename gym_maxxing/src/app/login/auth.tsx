@@ -5,6 +5,7 @@ export async function Authenticate(id: string, password: string) {
 
     id = id.toLowerCase(); // convert user input email to match database storing system
     
+
     const result = await sql` 
     SELECT user_password 
     FROM Member 

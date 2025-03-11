@@ -6,7 +6,8 @@ const sql = neon(`${process.env.DATABASE_URL}`);
 
 
 export async function CreateMember(phone: string, DOB: string, email: string, username: string, password: string, firstName: string, lastName: string ) {
-    email = email.toLocaleUpperCase(); // convert to match database storing system
+    email = email.toLowerCase(); // convert to match database storing system
+    username = username.toLowerCase(); // convert to match database storing system
 
     try {
         const result = await sql('INSERT INTO member (phone, dob, email, username, user_password, first_name, last_name) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
