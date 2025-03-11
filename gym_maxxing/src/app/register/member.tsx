@@ -10,7 +10,7 @@ export async function CreateMember(phone: string, DOB: string, email: string, us
 
     try {
         const result = await sql('INSERT INTO member (member_id, phone, dob, email, username, user_password, first_name, last_name) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-            [3, phone, DOB, email, username, password, firstName, lastName]
+            [4, phone, DOB, email, username, password, firstName, lastName]
         );
         if(result.length === 0) {
             alert('No user found in database');
