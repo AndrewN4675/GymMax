@@ -19,7 +19,7 @@ export function Form({
             className="block text-xs text-gray-600
             text-md"
           >
-            username 
+            Username 
           </label>
           <input
             id="username"
@@ -39,7 +39,7 @@ export function Form({
             className="block text-xs text-gray-600
             text-md"
           >
-            firstName 
+            First Name 
           </label>
           <input
             id="firstName"
@@ -59,7 +59,7 @@ export function Form({
             className="block text-xs text-gray-600
             text-md"
           >
-            lastName 
+            Last Name
           </label>
           <input
             id="lastName"
@@ -79,7 +79,7 @@ export function Form({
             className="block text-xs text-gray-600
             text-md"
           >
-            dateOfBirth 
+            Date of Birth
           </label>
           <input
             id="dateOfBirth"
@@ -99,7 +99,7 @@ export function Form({
             className="block text-xs text-gray-600
             text-md"
           >
-            phoneNumber 
+            Phone Number
           </label>
           <input
             id="phoneNumber"
