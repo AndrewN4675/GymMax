@@ -19,5 +19,5 @@ export async function Authenticate(id: string, password: string) {
         return {success: false}
     }
     console.log('Login successful');
-    return {success: true, redirect: '/dashboard'};
+    return {success: true, redirect: '/homepage'};
 }
