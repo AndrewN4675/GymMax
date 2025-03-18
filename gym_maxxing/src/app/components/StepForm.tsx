@@ -45,7 +45,7 @@ export default function StepForm({
       if (result.success) {
         setStepCount('');
         // Notify parent component to refresh the data
-        onStepsLogged();
+        onStepsLogged(parseInt(stepCount));
       } else {
         setError(result.error || 'Failed to log steps');
       }
