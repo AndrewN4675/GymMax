@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 interface StepFormProps {
-  onStepsLogged: () => void;
+  onStepsLogged: (stepCount: number) => Promise<void>;
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
 }
