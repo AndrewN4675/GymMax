@@ -62,7 +62,9 @@ export function CreateClass() {
       <CardContent>
         <div className='flex items-center gap-4 w-full'>
           <input 
-            id='className' type='text' 
+            id='className' 
+            type='text' 
+            maxLength={25}
             placeholder='Enter class name' 
             className='input-style'
             style={{width:'25%'}}>
