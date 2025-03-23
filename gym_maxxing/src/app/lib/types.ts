@@ -33,3 +33,19 @@ export interface User {
     stepCount: number;
     date?: string;
   }
+
+  // Fitness class information 
+  export interface ClassInfo {
+    classID: number;
+    title?: string;
+    date?: string;
+    time?: string;
+    trainerID?: number;
+    trainerName?: string;
+    classSize?: number;
+  }
+  
+  export interface Trainer {
+    trainerID: number;
+    trainerName: string;
+  }
