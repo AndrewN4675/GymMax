@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Form } from './form';
 import { CreateMember } from './member';
 import { SubmitButton } from './submit-button';
+import { redirect } from 'next/navigation';
 
 export default function Login() {
   return (
@@ -28,6 +29,7 @@ export default function Login() {
               await CreateMember(phoneNumber, dob, email, username, password, firstName, lastName); // Call the signIn function here
               console.log('Login successful!');
               // Redirect to the dashboard or a protected page after login success
+              redirect('/homepage'); 
             } catch (error) {
               console.error('Login failed:', error);
               //alert(error.message); // Show the error message to the user
