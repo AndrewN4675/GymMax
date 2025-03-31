@@ -94,7 +94,8 @@ export function CreateClass() {
             type='number' 
             placeholder='Enter class size' 
             className='input-style' 
-            min={0}>
+            min={0}
+            step="1">
           </input>
           <button 
             className='bg-blue-600 hover:bg-blue-700 button-style justify-center' 
