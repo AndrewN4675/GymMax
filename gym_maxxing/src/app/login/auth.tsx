@@ -26,7 +26,7 @@ export async function Authenticate(id: string, password: string) {
     const userId =  result[0].member_id;
 
     // call the createSession API route to create a session
-    const sessionResponse = await fetch('/api/createSession', {
+    const sessionResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/createSession`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
