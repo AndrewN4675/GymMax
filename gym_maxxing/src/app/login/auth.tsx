@@ -8,7 +8,7 @@ export async function Authenticate(id: string, password: string) {
     const hashedPass = createHash('sha256').update(password).digest('hex'); 
 
     const result = await sql` 
-    SELECT user_password 
+    SELECT member_id, username, user_password
     FROM Member 
     WHERE email = ${id}
     OR username = ${id};`;
@@ -22,17 +22,8 @@ export async function Authenticate(id: string, password: string) {
     console.log('Login successful');
 
     // Create a session (through HTTP cookies)
-    const username = await sql` 
-    SELECT username 
-    FROM Member 
-    WHERE email = ${id}
-    OR username = ${id};`;
-
-    const userId = await sql` 
-    SELECT user_id 
-    FROM Member 
-    WHERE email = ${id}
-    OR username = ${id};`;
+    const username = result[0].username;
+    const userId =  result[0].member_id;
 
     // call the createSession API route to create a session
     const sessionResponse = await fetch('/api/createSession', {
