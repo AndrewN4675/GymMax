@@ -20,5 +20,32 @@ export async function Authenticate(id: string, password: string) {
         return {success: false}
     }
     console.log('Login successful');
+
+    // Create a session (through HTTP cookies)
+    const username = await sql` 
+    SELECT username 
+    FROM Member 
+    WHERE email = ${id}
+    OR username = ${id};`;
+
+    const userId = await sql` 
+    SELECT user_id 
+    FROM Member 
+    WHERE email = ${id}
+    OR username = ${id};`;
+
+    // call the createSession API route to create a session
+    const sessionResponse = await fetch('/api/createSession', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, username })
+    });
+
+    if (!sessionResponse.ok) {
+      return { success: false, error: 'Failed to create session' };
+    }
+
     return {success: true, redirect: '/homepage'};
 }
