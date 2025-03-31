@@ -36,6 +36,9 @@ export default function Login() {
           return { success: false, error: 'Failed to create session' };
       }
 
+      console.log(sessionResponse);
+
+
     } catch (error) {
       console.error('Error submitting changes:', error);
       alert('Error submitting changes.');
@@ -60,7 +63,7 @@ export default function Login() {
         return { success: false, error: 'Failed to get user' };
     }
 
-    console.log(sessionResponse);
+      console.log(sessionResponse);
 
     } catch (error) {
       console.error('Error submitting changes:', error);
@@ -85,6 +88,8 @@ export default function Login() {
         return { success: false, error: 'Failed to get session validity' };
     }
 
+      console.log(sessionResponse);
+
     } catch (error) {
       console.error('Error:', error);
       alert('Error.');
@@ -104,6 +109,8 @@ export default function Login() {
     if (!sessionResponse.ok) {
         return { success: false, error: 'Failed to create session' };
     }
+
+      console.log(sessionResponse);
 
     } catch (error) {
       console.error('Error logging out:', error);
