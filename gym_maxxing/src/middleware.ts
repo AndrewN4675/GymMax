@@ -10,7 +10,9 @@ export async function middleware(req: NextRequest) {
       },
     });
 
-    if (sessionRes.status === 401) {
+    const sessionData = await sessionRes.json(); 
+
+    if (sessionData.sessionValid === false) {
         console.log("No session, return");
         return NextResponse.redirect(new URL('/login', req.nextUrl));
     }
