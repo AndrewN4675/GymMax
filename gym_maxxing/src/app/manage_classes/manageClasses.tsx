@@ -5,12 +5,7 @@ import { ClassInfo, Trainer } from '@/app/lib/types';
 
 const sql = neon(`${process.env.DATABASE_URL}`);
 
-export async function FetchClasses() {
-    // delete all rows where the class_date has passed (yesterday and older);
-    await sql`
-    DELETE FROM FitnessClass
-    WHERE class_date < CURRENT_DATE;`; //uses the Neon built in current date
-    
+export async function FetchClasses() { 
     // join tables on the foreign key so we can get the trainer name as 'last, first'
     const result = await sql`
     SELECT fc.*, CONCAT(t.lastname, ', ', t.firstname) trainer_name
