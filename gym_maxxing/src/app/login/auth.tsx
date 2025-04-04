@@ -1,5 +1,3 @@
-'use client';
-
 import { neon } from '@neondatabase/serverless'; // used for database querying 
 import { createHash } from 'crypto';
 
