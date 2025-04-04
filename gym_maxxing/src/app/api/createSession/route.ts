@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
       const response = NextResponse.json({ message: 'Login successful', userId });
 
       response.cookies.set('sessionToken', userId, {
-        httpOnly: true, //cannot be accessed by frontend
+        httpOnly: false, //can be accessed by frontend
         secure: false,
         sameSite: 'strict',
         path: '/',
