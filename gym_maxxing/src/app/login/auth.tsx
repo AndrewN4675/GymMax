@@ -31,7 +31,8 @@ export async function Authenticate(id: string, password: string) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, username })
+        body: JSON.stringify({ userId, username }),
+        credentials: 'include',
     });
 
     if (!sessionResponse.ok) {
