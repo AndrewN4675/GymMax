@@ -3,6 +3,42 @@ import Link from 'next/link';
 import { Form } from './form';
 import { SubmitButton } from './submit-button';
 import { Authenticate } from './auth';
+import { cookies } from 'next/headers';
+
+// Function to create a session directly in the server component
+async function createServerSession(member_id: string, username: string) {
+  // Generate a session ID
+  const sessionId = crypto.randomUUID();
+  
+  // Set the cookie using the Next.js cookies API
+  /*(await cookies()).set('session_id', sessionId, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 60 * 60 * 24 * 7, // 1 week
+    path: '/',
+  });*/
+
+  (await cookies()).set('sessionToken', member_id, {
+    httpOnly: true, //cannot be accessed by frontend
+    secure: false,
+    sameSite: 'strict',
+    path: '/',
+    maxAge: 24 * 60 * 60, // expires after a day
+  });
+
+  (await cookies()).set('username', username, {
+    httpOnly: false, //can be accessed by frontend
+    secure: false,
+    sameSite: 'strict',
+    path: '/',
+    maxAge: 24 * 60 * 60, // expires after a day
+  });
+  
+  // Store the session in your database
+  // Example: await db.sessions.create({ sessionId, userId: member_id, username });
+  
+  return { success: true };
+}
 
 export default function Login() {
   return (
@@ -23,20 +59,11 @@ export default function Login() {
             console.log("Attempting to authenticate user");
           
             const result = await Authenticate(id, password); // Authenticate the users inputs
-
             const { username, member_id } = result;
 
-            // call the createSession API route to create a session
-            const sessionResponse = await fetch('https://gymmax.vercel.app/api/createSession', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ member_id, username }),
-                credentials: 'include',
-            });
-
-            if (!sessionResponse.ok) {
+            const sessionResult = await createServerSession(member_id, username);
+            
+            if (!sessionResult.success) {
               return { success: false, error: 'Failed to create session' };
             }
         
