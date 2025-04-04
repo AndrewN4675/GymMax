@@ -25,19 +25,5 @@ export async function Authenticate(id: string, password: string) {
     const username = result[0].username;
     const userId =  result[0].member_id;
 
-    // call the createSession API route to create a session
-    const sessionResponse = await fetch('https://gymmax.vercel.app/api/createSession', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId, username }),
-        credentials: 'include',
-    });
-
-    if (!sessionResponse.ok) {
-      return { success: false, error: 'Failed to create session' };
-    }
-
-    return {success: true, redirect: '/homepage'};
+    return {success: true, redirect: '/homepage', username: result[0].username, member_id: result[0].member_id};
 }

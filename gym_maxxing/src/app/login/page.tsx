@@ -23,6 +23,22 @@ export default function Login() {
             console.log("Attempting to authenticate user");
           
             const result = await Authenticate(id, password); // Authenticate the users inputs
+
+            const { username, member_id } = result;
+
+            // call the createSession API route to create a session
+            const sessionResponse = await fetch('https://gymmax.vercel.app/api/createSession', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ member_id, username }),
+                credentials: 'include',
+            });
+
+            if (!sessionResponse.ok) {
+              return { success: false, error: 'Failed to create session' };
+            }
         
             if(result.redirect) { // Redirect user to page that authentication determined
               redirect(result.redirect);
