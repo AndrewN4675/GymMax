@@ -5,19 +5,8 @@ import { SubmitButton } from './submit-button';
 import { Authenticate } from './auth';
 import { cookies } from 'next/headers';
 
-// Function to create a session directly in the server component
+// create a session
 async function createServerSession(member_id: string, username: string) {
-  // Generate a session ID
-  const sessionId = crypto.randomUUID();
-  
-  // Set the cookie using the Next.js cookies API
-  /*(await cookies()).set('session_id', sessionId, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: 60 * 60 * 24 * 7, // 1 week
-    path: '/',
-  });*/
-
   (await cookies()).set('sessionToken', member_id, {
     httpOnly: true, //cannot be accessed by frontend
     secure: false,
@@ -33,9 +22,6 @@ async function createServerSession(member_id: string, username: string) {
     path: '/',
     maxAge: 24 * 60 * 60, // expires after a day
   });
-  
-  // Store the session in your database
-  // Example: await db.sessions.create({ sessionId, userId: member_id, username });
   
   return { success: true };
 }
