@@ -50,11 +50,6 @@ export function Form({
             px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none 
             focus:ring-black sm:text-sm text-black"
         />
-        {/*
-        <Link href="/recover_password" className="text-blue-500 text-sm">
-            Forgot your password?
-        </Link>
-        */}
         </div>
         {children}
       </form>

@@ -25,5 +25,5 @@ export async function Authenticate(id: string, password: string) {
     const username = result[0].username;
     const userId =  result[0].member_id;
 
-    return {success: true, redirect: '/homepage', username: result[0].username, member_id: result[0].member_id};
+    return {success: true, redirect: '/', username: result[0].username, member_id: result[0].member_id};
 }
