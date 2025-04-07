@@ -33,6 +33,7 @@ Please review the following code files, which were actively developed during thi
 * [manageClasses.tsx](https://github.com/AndrewN4675/GymMax/blob/main/gym_maxxing/src/app/manage_classes/page.tsx)
 * [scheduledClasses.tsx](https://github.com/AndrewN4675/GymMax/blob/main/gym_maxxing/src/app/scheduled_classes/page.tsx)
 * [testSession.tsx](https://github.com/AndrewN4675/GymMax/blob/main/gym_maxxing/src/app/testSession/page.tsx)
+* [reset-password.tsx](https://github.com/AndrewN4675/GymMax/blob/password-reset/gym_maxxing/src/app/reset-password/page.tsx)
 
 ## Retrospective Summary
 
