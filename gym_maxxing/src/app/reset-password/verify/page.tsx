@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { VerifyForm } from './verify-form';
 import { VerifyResetCode } from '../reset';
 import Layout from '../../components/Layout';
+import { Suspense } from 'react';
 
 export default function VerifyReset() {
   return (
@@ -14,25 +15,27 @@ export default function VerifyReset() {
               Enter the code that was sent to your email
             </p>
           </div>
-          <VerifyForm
-            action={async (formData: FormData) => {
-              'use server';
-              const email = formData.get('email') as string;
-              const code = formData.get('code') as string;
-              
-              try {
-                const result = await VerifyResetCode(email, code);
-                if (result.success) {
-                  return { success: true, email };
-                } else {
-                  return { success: false, error: result.error };
+          <Suspense fallback={<div className="p-4 text-center">Loading...</div>}>
+            <VerifyForm
+              action={async (formData: FormData) => {
+                'use server';
+                const email = formData.get('email') as string;
+                const code = formData.get('code') as string;
+                
+                try {
+                  const result = await VerifyResetCode(email, code);
+                  if (result.success) {
+                    return { success: true, email };
+                  } else {
+                    return { success: false, error: result.error };
+                  }
+                } catch (error) {
+                  console.error('Verification failed:', error);
+                  return { success: false, error: "Verification failed" };
                 }
-              } catch (error) {
-                console.error('Verification failed:', error);
-                return { success: false, error: "Verification failed" };
-              }
-            }}
-          />
+              }}
+            />
+          </Suspense>
         </div>
       </div>
     </Layout>

@@ -1,5 +1,4 @@
 'use client';
-
 import { useActionState } from 'react';
 import { SubmitButton } from '../submit-button';
 import Link from 'next/link';
@@ -14,7 +13,6 @@ export function VerifyForm({
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get('email') || '';
-
   const [state, formAction, isPending] = useActionState(
     (prevState: { success: boolean; email?: string; error?: string }, formData: FormData) => {
       // Add email to formData
@@ -23,13 +21,11 @@ export function VerifyForm({
     },
     { success: false, email: '', error: '' }
   );
-
   useEffect(() => {
     if (state.success && state.email) {
       router.push(`/reset-password/new-password?email=${encodeURIComponent(state.email)}`);
     }
   }, [state, router]);
-
   return (
     <form
       action={formAction}
@@ -57,13 +53,11 @@ export function VerifyForm({
           focus:ring-black sm:text-sm text-black"
         />
       </div>
-
       {isPending ? (
         <p className="text-sm text-blue-500">Verifying code...</p>
       ) : state.error && (
         <p className="text-sm text-red-500">{state.error}</p>
       )}
-
       <SubmitButton>Verify Code</SubmitButton>
       <p className="text-center text-sm text-gray-600">
         {"Didn't receive a code? "}
