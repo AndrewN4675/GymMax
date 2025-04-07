@@ -1,6 +1,6 @@
 # Sprint 2 Report
 
-**Video Link:** TODO
+**Video Link:** [Video](https://youtu.be/-_uoeksKZV8)
 
 ## What's New (User Facing)
 * User password encryption with SHA256
