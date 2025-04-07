@@ -33,8 +33,6 @@ Please review the following code files, which were actively developed during thi
 * [manageClasses.tsx](https://github.com/AndrewN4675/GymMax/blob/main/gym_maxxing/src/app/manage_classes/page.tsx)
 * [scheduledClasses.tsx](https://github.com/AndrewN4675/GymMax/blob/main/gym_maxxing/src/app/scheduled_classes/page.tsx)
 * [testSession.tsx](https://github.com/AndrewN4675/GymMax/blob/main/gym_maxxing/src/app/testSession/page.tsx)
-* [trainerManagement.js](https://github.com/AndrewN4675/GymMax/tree/main/gym_maxxing/src/app/trainerinfo)
-* [fitnessProgress.js](https://github.com/AndrewN4675/GymMax/blob/main/gym_maxxing/src/app/progress/page.tsx)
 
 ## Retrospective Summary
 
