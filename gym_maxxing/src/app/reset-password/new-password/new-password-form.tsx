@@ -1,8 +1,8 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { SubmitButton } from '../submit-button';
-import { useSearchParams } from 'next/navigation';
 
 export function NewPasswordForm({
   action,
@@ -10,20 +10,33 @@ export function NewPasswordForm({
   action: (formData: FormData) => Promise<{ success: boolean; error?: string }>;
 }) {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const email = searchParams.get('email') || '';
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState('');
 
-  const [state, formAction, isPending] = useActionState(
-    (prevState: { success: boolean; error?: string }, formData: FormData) => {
-      // Add email to formData
-      formData.append('email', email);
-      return action(formData);
-    },
-    { success: false, error: '' }
-  );
+  async function handleSubmit(formData: FormData) {
+    setIsPending(true);
+    setError('');
+    
+    // Add email to formData
+    formData.append('email', email);
+    
+    try {
+      const result = await action(formData);
+      if (!result.success && result.error) {
+        setError(result.error);
+      }
+    } catch (e) {
+      setError('An unexpected error occurred');
+    } finally {
+      setIsPending(false);
+    }
+  }
 
   return (
     <form
-      action={formAction}
+      action={handleSubmit}
       className="flex flex-col space-y-4 bg-gray-50 px-4 py-8 sm:px-16"
     >
       <div>
@@ -63,13 +76,11 @@ export function NewPasswordForm({
           focus:ring-black sm:text-sm text-black"
         />
       </div>
-
       {isPending ? (
         <p className="text-sm text-blue-500">Updating password...</p>
-      ) : state.error && (
-        <p className="text-sm text-red-500">{state.error}</p>
+      ) : error && (
+        <p className="text-sm text-red-500">{error}</p>
       )}
-
       <SubmitButton>Reset Password</SubmitButton>
     </form>
   );
