@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import { SubmitButton } from './submit-button';
 import Link from 'next/link';
 import { useEffect } from 'react';
@@ -12,7 +12,7 @@ export function EmailForm({
   action: (formData: FormData) => Promise<{ success: boolean; email?: string; error?: string }>;
 }) {
   const router = useRouter();
-  const [state, formAction] = useFormState(
+  const [state, formAction, isPending] = useActionState(
     (prevState: { success: boolean; email?: string; error?: string }, formData: FormData) => action(formData),
     { success: false, email: '', error: '' }
   );
@@ -48,7 +48,9 @@ export function EmailForm({
         />
       </div>
 
-      {state.error && (
+      {isPending ? (
+        <p className="text-sm text-blue-500">Sending reset code...</p>
+      ) : state.error && (
         <p className="text-sm text-red-500">{state.error}</p>
       )}
 

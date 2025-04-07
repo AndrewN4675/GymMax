@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import { SubmitButton } from '../submit-button';
 import { useSearchParams } from 'next/navigation';
 
@@ -12,7 +12,7 @@ export function NewPasswordForm({
   const searchParams = useSearchParams();
   const email = searchParams.get('email') || '';
 
-  const [state, formAction] = useFormState(
+  const [state, formAction, isPending] = useActionState(
     (prevState: { success: boolean; error?: string }, formData: FormData) => {
       // Add email to formData
       formData.append('email', email);
@@ -64,7 +64,9 @@ export function NewPasswordForm({
         />
       </div>
 
-      {state.error && (
+      {isPending ? (
+        <p className="text-sm text-blue-500">Updating password...</p>
+      ) : state.error && (
         <p className="text-sm text-red-500">{state.error}</p>
       )}
 

@@ -4,6 +4,7 @@ import { CreateMember } from './member';
 import { SubmitButton } from './submit-button';
 import { redirect } from 'next/navigation';
 import Layout from '../components/Layout';
+import { useEffect } from 'react';
 
 export default function Register() {
   return (
@@ -27,14 +28,16 @@ export default function Register() {
               const email = formData.get('email') as string;
               const password = formData.get('password') as string;
               try {
-                await CreateMember(phoneNumber, dob, email, username, password, firstName, lastName); // Call the signIn function here
-                console.log('Login successful!');
-                // Redirect to the dashboard or a protected page after login success
-                redirect('/'); 
+                await CreateMember(phoneNumber, dob, email, username, password, firstName, lastName);
+                console.log('Registration successful!');
+                // Redirect to the dashboard or a protected page after registration success
+                redirect('/success'); 
               } catch (error) {
-                console.error('Login failed:', error);
-                //alert(error.message); // Show the error message to the user
-                alert("Authentication failed");
+                console.error('Registration failed:', error);
+                // Instead of using alert, pass an error message to the client side
+                // by throwing an error that can be caught by error boundaries or
+                // by returning an error state that the Form component can handle
+                return { error: "Authentication failed" };
               }
             }}
           >

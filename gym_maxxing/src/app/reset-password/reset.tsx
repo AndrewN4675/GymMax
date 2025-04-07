@@ -44,7 +44,7 @@ export async function RequestReset(email: string) {
       expiry: Date.now() + 15 * 60 * 1000 // 15 minutes
     });
     
-    // In a real app, send an email with the reset code
+    // Send an email with the reset code
     console.log(`Reset code for ${email}: ${resetCode}`);
     
     // TODO: Implement actual email sending

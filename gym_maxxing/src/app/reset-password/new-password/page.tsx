@@ -34,6 +34,12 @@ export default function NewPassword() {
                   return { success: false, error: "Failed to update password" };
                 }
               } catch (error) {
+                // Check if this is a redirect error (which is expected and not a real error)
+                if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+                  // This is a redirect, don't handle it as an error
+                  throw error; // Let Next.js handle the redirect
+                }
+                
                 console.error('Password update failed:', error);
                 return { success: false, error: "Failed to update password" };
               }

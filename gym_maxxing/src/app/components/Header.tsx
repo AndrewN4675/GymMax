@@ -14,7 +14,7 @@ export default function Header(): React.ReactElement {
       <nav className="container mx-auto px-4 relative">
         <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
           <div className="flex space-x-3">
-            <Link href="/signup" className="px-4 py-2 bg-white text-[#a3ccd0] font-medium rounded hover:bg-gray-100 transition-colors duration-300">Sign Up</Link>
+            <Link href="/register" className="px-4 py-2 bg-white text-[#a3ccd0] font-medium rounded hover:bg-gray-100 transition-colors duration-300">Sign Up</Link>
             <Link href="/login" className="px-4 py-2 border border-white text-white font-medium rounded hover:bg-white hover:text-[#a3ccd0] transition-colors duration-300">Login</Link>
           </div>
         </div>
