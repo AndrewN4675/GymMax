@@ -38,7 +38,7 @@ export default function StepChart({
             <SelectItem value="7">Last 7 days</SelectItem>
             <SelectItem value="14">Last 14 days</SelectItem>
             <SelectItem value="30">Last 30 days</SelectItem>
-            <SelectItem value="all">All time</SelectItem>
+            <SelectItem value="36500">All time</SelectItem>
           </SelectContent>
         </Select>
       </CardHeader>
