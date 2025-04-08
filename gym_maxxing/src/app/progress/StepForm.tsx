@@ -27,47 +27,7 @@ export default function StepForm({userId}: {userId: number}) {
     }
     handleStepsLogged();
   }
-
-
-  /*
-  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
-    e.preventDefault();
-    
-    if (!stepCount || isNaN(parseInt(stepCount)) || parseInt(stepCount) <= 0) {
-      setError('Please enter a valid number of steps');
-      return;
-    }
-    
-    try {
-      setIsLoading(true);
-      setError('');
-      
-      const response = await fetch('/api/steps', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ stepCount: parseInt(stepCount) }),
-      });
-      
-      const result = await response.json();
-      
-      if (result.success) {
-        setStepCount('');
-        // Notify parent component to refresh the data
-        onStepsLogged(parseInt(stepCount));
-      } else {
-        setError(result.error || 'Failed to log steps');
-      }
-    } catch (error) {
-      console.error('Error logging steps:', error);
-      setError('Failed to log steps. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  */
-
+  
   return (
     <Card>
       <CardHeader>
