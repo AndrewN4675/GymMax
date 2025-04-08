@@ -32,8 +32,8 @@ export default function ProgressPage(): JSX.Element {
       }
     };
     fetchData();
-  }, []);
-    
+  }, [timePeriod]);
+        
   if (isLoading && stepsData.length === 0) {
     return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
   }
