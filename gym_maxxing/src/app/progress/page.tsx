@@ -32,29 +32,7 @@ export default function ProgressPage(): JSX.Element {
       }
     };
     fetchData();
-  }, []);
-    
-  //const handleStepsLogged = async (stepCount: number): Promise<void> => {
-    //try {
-    //  setIsLoading(true);
-    //  
-    //  // Query to insert or update step count for today
-    //  await sql`
-    //    INSERT INTO Progress (member_id, step_count, entry_date)
-    //    VALUES (${userId}, ${stepCount}, CURRENT_DATE)
-    //    ON CONFLICT (member_id, CURRENT_DATE) 
-    //    DO UPDATE SET step_count = ${stepCount};`;
-    //  
-    //  // Refresh the step data
-    //  fetchStepsData();
-    //  
-    //} catch (error) {
-    //  console.error('Error logging steps:', error);
-    //  setError('Failed to log steps');
-    //} finally {
-    //  setIsLoading(false);
-    //}
-  //};
+  }, [timePeriod]);
   
   if (isLoading && stepsData.length === 0) {
     return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
