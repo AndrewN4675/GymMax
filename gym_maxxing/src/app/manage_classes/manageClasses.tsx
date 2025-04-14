@@ -43,7 +43,7 @@ export async function FetchTrainers() {
         return [];
     }
     const formattedData: Trainer[] = result.map(row => ({
-        trainerID: row.trainerid,
+        trainerId: row.trainerid,
         trainerName: row.trainer_name
     }));
     return formattedData;

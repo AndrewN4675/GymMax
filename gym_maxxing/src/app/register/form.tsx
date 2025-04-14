@@ -1,13 +1,29 @@
-import Link from 'next/link';
-import { neon } from '@neondatabase/serverless';
+'use client'
 
-export function Form({
+import { useState } from 'react';
+
+export function Form(
+  {
     action,
     children,
   }: {
     action: any;
     children: React.ReactNode;
   }) {
+    const [phone, setPhone] = useState<string>('');
+
+    const formatPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      const digits = value.replace(/\D/g, ''); // Remove non-digits
+  
+      let formattedPhone = '';
+      if (digits.length > 0) formattedPhone += '(' + digits.slice(0, 3);
+      if (digits.length >= 3) formattedPhone += ') ';
+      if (digits.length >= 4) formattedPhone += digits.slice(3, 6);
+      if (digits.length >= 6) formattedPhone += '-' + digits.slice(6, 10);
+      setPhone(formattedPhone);
+    };
+
     return (
       <form
         action={action}
@@ -104,8 +120,11 @@ export function Form({
           <input
             id="phoneNumber"
             name="phoneNumber" 
-            type="text"
-            placeholder="phone number"
+            type="tel"
+            value={phone}
+            onChange={formatPhone}
+            maxLength={16}
+            placeholder='(888) 888-8888'
             autoComplete="phoneNumber"
             required
             className="mt-1 block w-full appearance-none rounded-md border border-gray-300 
@@ -156,4 +175,3 @@ export function Form({
       </form>
     );
   }
-  

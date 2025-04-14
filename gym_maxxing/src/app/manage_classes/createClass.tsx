@@ -87,7 +87,7 @@ export function CreateClass() {
             className='input-style' 
             style={{width:'20%'}}>
             <option value=''>Select a Trainer</option>
-              {trainers.map((trainer) => (<option key={trainer.trainerID} value={trainer.trainerID}>{trainer.trainerName}</option>))}
+              {trainers.map((trainer) => (<option key={trainer.trainerId} value={trainer.trainerId}>{trainer.trainerName}</option>))}
           </select>
           <input 
             id='classSize' 

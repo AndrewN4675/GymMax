@@ -1,0 +1,10 @@
+.input-style {
+  margin-top: 0.25rem;
+  display: block;
+  height: 2rem;
+  appearance: none;
+  border-radius: 0.375rem;
+  border: 1px solid #d1d5db;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+}

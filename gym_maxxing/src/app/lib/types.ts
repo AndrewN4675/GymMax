@@ -46,6 +46,13 @@ export interface User {
   }
   
   export interface Trainer {
-    trainerID: number;
-    trainerName: string;
+    trainerId: number;
+    firstName?: string;
+    lastName?: string;
+    trainerName: string; // can either be concat(last, first) or 'first last'
+    phone?: string;
+    email?: string;
+    expertise?: string;
+    bio?: string;
+    pictureUrl?: string;
   }
