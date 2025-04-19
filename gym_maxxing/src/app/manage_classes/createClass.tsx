@@ -29,11 +29,6 @@ export function CreateClass() {
     }
   }, []);
 
-  useEffect(() => {
-    
-  }, []);
-
-
   const handleSubmit = () => {
       const trainerDropDown = document.getElementById('trainerDropDown') as HTMLSelectElement;
       const classSizeInput = document.getElementById('classSize') as HTMLInputElement;

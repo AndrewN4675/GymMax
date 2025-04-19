@@ -1,14 +1,11 @@
-"use client"
+'use client'
 
-import { redirect } from 'next/navigation'
-import Link from 'next/link';
-import Head from 'next/head';
 import Layout from '../components/Layout';
-import { Card, CardContent } from '@/components/ui/card';
-import { FetchTrainers } from './trainerfetch'
-import { updateTrainerInfo } from './trainerupdate'
-import { useEffect, useState } from "react";
+import { Card } from '@/components/ui/card';
+import { FetchTrainers, UpdateTrainerInfo } from './trainerInfo-db'
+import { useEffect, useState } from 'react';
 import { Trainer } from '../lib/types';
+import ImageDropBox from './imageDropBox'
 import './style.css'
 
 export default function Login() {
@@ -46,10 +43,19 @@ export default function Login() {
     setPhone(formattedPhone);
   };
 
-  const handleSubmitChanges = async () => {
+  const handleChange = (trainerId: number, field: string, newValue: string) => {
+    const updatedTrainers = trainers.map((trainer) => {
+      if (trainer.trainerId === trainerId) {
+        return {...trainer, [field]: newValue, };
+      }
+      return trainer;
+    });
+    setTrainers(updatedTrainers);
+  };
+
+  const handleSubmit = async () => {
     try {
-      // Update the trainers
-      const response = await updateTrainerInfo(trainers);
+      const response = await UpdateTrainerInfo(trainers);
 
       if (response.success) {
         alert('Trainer information updated successfully!');
@@ -59,6 +65,7 @@ export default function Login() {
     } catch (error) {
       console.error('Error submitting changes:', error);
       alert('Error submitting changes.');
+      window.location.reload(); // refresh page to show updated table
     }
   };
 
@@ -83,11 +90,11 @@ export default function Login() {
 
         {trainers.map((trainer) => (
           <Card key={trainer.trainerId} className='py-8 px-6 mx-8 my-4'>
-            <CardContent>
             <div className='flex flex-col md:flex-row items-start gap-6'>
-              <img 
-                src={trainer.pictureUrl} className='w-[250px] h-[250px] border-2 border-gray-200 object-cover rounded-lg'
-              /> {/*TODO: ADD THE ABILITY TO CHANGE THE IMAGE, REMOVES OLD IMAGES FROM THE BLOB DB*/}
+              <div>
+                <img src={trainer.pictureUrl} className='w-[175px] h-[175px] border-2 border-gray-200 object-cover rounded-lg'/>
+                <ImageDropBox trainerId={trainer.trainerId}/>
+              </div>
               <div className='text-left' style={{width: '100%'}}>
                 <div style={{ display: 'flex', gap: '1rem' }}>
                   <input 
@@ -97,6 +104,8 @@ export default function Login() {
                     placeholder='First name' 
                     className='input-style'
                     style={{ width: '25%' }}
+                    value={trainer.firstName || ''}
+                    onChange={(e) => handleChange(trainer.trainerId, 'firstName', e.target.value)}
                   />
                   <input 
                     id='LastNameInput' 
@@ -105,27 +114,40 @@ export default function Login() {
                     placeholder='Last name' 
                     className='input-style'
                     style={{ width: '25%' }}
+                    value={trainer.lastName || ''}
+                    onChange={(e) => handleChange(trainer.trainerId, 'lastName', e.target.value)}
                   />
                 </div>
                 <div style={{ display: 'flex', gap: '1rem' }}>
                   <input 
                     id='EmailInput' 
                     type='email'
-                    autoComplete="email" 
+                    autoComplete='email' 
                     maxLength={64}
                     placeholder='somebody@example.com' 
                     className='input-style'
                     style={{ width: '52.25%' }}
+                    value={trainer.email || ''}
+                    onChange={(e) => handleChange(trainer.trainerId, 'email', e.target.value)}
                   />
                   <input
                     id='PhoneInput'
                     type='tel'
-                    value={phone}
-                    onChange={formatPhone}
                     maxLength={16}
                     placeholder='(888) 888-8888'
                     className='input-style'
                     style={{ width: '47.75%' }}
+                    value={trainer.phone || ''}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const digits = value.replace(/\D/g, '');
+                      let formatted = '';
+                      if (digits.length > 0) formatted += '(' + digits.slice(0, 3);
+                      if (digits.length >= 3) formatted += ') ';
+                      if (digits.length >= 4) formatted += digits.slice(3, 6);
+                      if (digits.length >= 6) formatted += '-' + digits.slice(6, 10);
+                      handleChange(trainer.trainerId, 'phone', formatted);
+                    }}
                   />
                 </div>
                 <hr style={{ border: '0', borderTop: '2px solid #ccc', margin: '8px 0' }}/>
@@ -133,8 +155,10 @@ export default function Login() {
                   id='BioInput'
                   className='input-style' 
                   maxLength={500}
-                  placeholder='somebody@example.com' 
-                  style={{ height: '8rem', width: '100%', resize: "none"}} 
+                  placeholder='Enter trainer bio here...' 
+                  style={{ height: '8rem', width: '100%', resize: 'none'}} 
+                  value={trainer.bio || ''}
+                  onChange={(e) => handleChange(trainer.trainerId, 'bio', e.target.value)}
                 />
                 <input 
                   id='ExpertiseInput' 
@@ -143,12 +167,21 @@ export default function Login() {
                   placeholder='Expertise' 
                   className='input-style'
                   style={{ width: '100%' }}
+                  value={trainer.expertise || ''}
+                  onChange={(e) => handleChange(trainer.trainerId, 'expertise', e.target.value)}
                 />
               </div>
             </div>
-            </CardContent>
           </Card>
         ))}  
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+        <button 
+          className='bg-blue-600 hover:bg-blue-700 button-style justify-center' 
+          style={{width:'10%'}}
+          onClick={handleSubmit}>
+          Save Changes
+        </button>
       </div>
       
     </Layout>
