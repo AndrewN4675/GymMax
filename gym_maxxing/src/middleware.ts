@@ -36,6 +36,7 @@ export async function middleware(req: NextRequest) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'Cookie': req.headers.get('cookie') || '',
         },
       });
 
