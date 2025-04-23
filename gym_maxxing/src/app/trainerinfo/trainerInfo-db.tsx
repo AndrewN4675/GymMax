@@ -58,6 +58,38 @@ export async function UpdateTrainerInfo(trainers: Trainer[]) {
     }
 }
 
+export async function AddTrainer(gymId: string) {
+  const defaultProfile = 'https://ea9ukfncuamxkqnm.public.blob.vercel-storage.com/default_pfp-ZHTINW6O4yDsoMAOhtjrDAtVuiAuCa.png';
+  try {
+    const result = await sql`
+      INSERT INTO Trainer (gym_id)
+      VALUES (${parseInt(gymId)})
+      RETURNING trainerid`;
+
+    const newTrainer: Trainer = {
+      trainerId: result[0].trainerid,
+      trainerName: '',
+      pictureUrl: defaultProfile,
+    };
+
+    return {newTrainer, success: true};
+  } catch(error) {
+    console.error('Failed to insert trainer into the database');
+    return {success: false};
+  }
+}
+
+export async function RemoveTrainer(trainerId: number) {
+  try {
+    await sql`
+      DELETE FROM Trainer WHERE trainerid = ${trainerId};`;
+    return {success: true};
+  } catch(error) {
+    console.error('Failed to remove trainer from the database');
+    return {success: false};
+  }
+}
+
 export async function UploadImage(trainerId: number, image: File) {
     let blobUrl = null;
     try {
@@ -71,8 +103,8 @@ export async function UploadImage(trainerId: number, image: File) {
 
         // delete the existing file from the database
         const currentUrl = await sql`
-            SELECT picture_url FROM Trainer 
-            WHERE trainerid = ${trainerId};`;
+          SELECT picture_url FROM Trainer 
+          WHERE trainerid = ${trainerId};`;
 
         if(currentUrl.length > 0) {
           // ensure they have a url, if they do we need to delete it
@@ -83,9 +115,9 @@ export async function UploadImage(trainerId: number, image: File) {
         
         // link it to our relational database (Neon)
         await sql`
-            UPDATE Trainer 
-            SET picture_url = ${blobUrl}
-            WHERE trainerid = ${trainerId};`;
+          UPDATE Trainer 
+          SET picture_url = ${blobUrl}
+          WHERE trainerid = ${trainerId};`;
       
         return { success: true };
     } catch (error) {

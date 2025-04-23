@@ -2,16 +2,15 @@
 
 import Layout from '../components/Layout';
 import { Card } from '@/components/ui/card';
-import { FetchTrainers, UpdateTrainerInfo } from './trainerInfo-db'
+import { FetchTrainers, AddTrainer, UpdateTrainerInfo, RemoveTrainer } from './trainerInfo-db'
 import { useEffect, useState } from 'react';
 import { Trainer } from '../lib/types';
 import ImageDropBox from './imageDropBox'
 import './style.css'
 
-export default function Login() {
+export default function TrainerInfo() {
   const [trainers, setTrainers] = useState<Trainer[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [phone, setPhone] = useState<string>('');
 
   const gymId = process.env.NEXT_PUBLIC_GYM_ID || '1';
 
@@ -29,19 +28,6 @@ export default function Login() {
     };
     fetchTrainers();
   }, [gymId]); // refresh trainers  on a change of gymId
-
-  // formats the phone number as '(888) 888-8888'
-  const formatPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const digits = value.replace(/\D/g, ''); // Remove non-digits
-
-    let formattedPhone = '';
-    if (digits.length > 0) formattedPhone += '(' + digits.slice(0, 3);
-    if (digits.length >= 3) formattedPhone += ') ';
-    if (digits.length >= 4) formattedPhone += digits.slice(3, 6);
-    if (digits.length >= 6) formattedPhone += '-' + digits.slice(6, 10);
-    setPhone(formattedPhone);
-  };
 
   const handleChange = (trainerId: number, field: string, newValue: string) => {
     const updatedTrainers = trainers.map((trainer) => {
@@ -69,6 +55,31 @@ export default function Login() {
     }
   };
 
+  const addTrainer = async () => { 
+    const result = await AddTrainer(gymId);
+    if (result.success && result.newTrainer) {
+      // add new trainer to the list and scroll down to the bottom so the users can edit and save
+      setTrainers(prev => [...prev, result.newTrainer]);
+      setTimeout(() => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      }, 150); 
+    } else {
+      console.error('Failed to add trainer');
+    }
+  };
+
+  const removeTrainer = async (trainerId: number) => {
+    if(confirm('You are about to remove this trainer from your gym. This action cannot be undone')) {
+      const result = await RemoveTrainer(trainerId);
+      if (result.success) {
+        setTrainers(prev => prev.filter(trainer => trainer.trainerId !== trainerId));
+      } else {
+        console.error('Failed to remove trainer');
+      }
+    }
+  };
+
+
   if(loading) {
     return(
       <div className='text-center py-12'>
@@ -86,6 +97,13 @@ export default function Login() {
           <p className='text-lg my-5'>
             View all your current trainers and edit their information. TODO ADD INSERTING AND REMOVING
           </p>
+          <div className="flex justify-end mt-6">
+            <button 
+              className='bg-blue-600 hover:bg-blue-700 button-style px-4 py-2 text-white rounded'
+              onClick={addTrainer}>
+              Add a Trainer
+            </button>
+          </div>
         </Card>
 
         {trainers.map((trainer) => (
@@ -117,6 +135,11 @@ export default function Login() {
                     value={trainer.lastName || ''}
                     onChange={(e) => handleChange(trainer.trainerId, 'lastName', e.target.value)}
                   />
+                  <button 
+                    className='bg-red-700 hover:bg-red-800 px-4 py-2 text-white rounded text-sm ml-auto'
+                    onClick={() => removeTrainer(trainer.trainerId)}>
+                    Remove
+                  </button>
                 </div>
                 <div style={{ display: 'flex', gap: '1rem' }}>
                   <input 
