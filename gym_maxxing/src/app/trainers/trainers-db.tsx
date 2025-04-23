@@ -2,9 +2,11 @@
 
 import { neon } from '@neondatabase/serverless';
 import { Trainer } from '../lib/types';
+import Success from '../success/page';
+
+const sql = neon(`${process.env.DATABASE_URL}`);
 
 export async function FetchTrainers(gymId: string) {
-  const sql = neon(`${process.env.DATABASE_URL}`);
   const defaultProfile = 'https://ea9ukfncuamxkqnm.public.blob.vercel-storage.com/default_pfp-ZHTINW6O4yDsoMAOhtjrDAtVuiAuCa.png';
 
   const result = await sql`  
