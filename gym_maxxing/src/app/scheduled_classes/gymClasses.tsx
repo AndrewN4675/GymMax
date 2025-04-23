@@ -3,7 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import { RetrieveClasses } from './retrieveClasses';
 import { ClassInfo, Gym } from './interfaces';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
+const localizer = momentLocalizer(moment);
 
 export default function FilterableGymClasses() {
   const [gyms, setGyms] = useState<Gym[]>([]);
@@ -11,11 +15,9 @@ export default function FilterableGymClasses() {
   const [classes, setClasses] = useState<ClassInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-
   useEffect(() => {
     async function GymClasses() {
       try {
- 
         const gymList: Gym[] = [
           {
             gym_id: 1,
@@ -78,6 +80,17 @@ export default function FilterableGymClasses() {
     setSelectedGymId(val);
   };
 
+  const calendarEvents = classes.map(cls => {
+    const start = new Date(`${cls.date} ${cls.time}`);
+    const end = new Date(start);
+    end.setHours(end.getHours() + 1);
+    return {
+      title: cls.title,
+      start,
+      end
+    };
+  });
+
   return (
     <div style={{ margin: '2rem' }}>
       <h2>Filter Classes By Gym</h2>
@@ -91,7 +104,7 @@ export default function FilterableGymClasses() {
         style={{ marginLeft: '1rem' }}
       >
         <option value="">-- Choose a Gym --</option>
-        {gyms.map((gym) => (
+        {gyms.map(gym => (
           <option key={gym.gym_id} value={gym.gym_id}>
             {gym.gym_name}
           </option>
@@ -103,6 +116,7 @@ export default function FilterableGymClasses() {
       {/* Classes table */}
       {!loading && classes.length > 0 && (
         <div style={{ marginTop: '2rem' }}>
+          <h3>Class List</h3>
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-gray-100">
@@ -114,7 +128,7 @@ export default function FilterableGymClasses() {
               </tr>
             </thead>
             <tbody>
-              {classes.map((cls) => (
+              {classes.map(cls => (
                 <tr key={cls.classID} className="border-b">
                   <td className="text-left p-2 border">{cls.title}</td>
                   <td className="text-left p-2 border">{cls.date}</td>
@@ -131,6 +145,22 @@ export default function FilterableGymClasses() {
       {/* If a gym is selected but no classes were found */}
       {!loading && selectedGymId !== null && classes.length === 0 && (
         <p>No classes found for this gym.</p>
+      )}
+
+      {/* Calendar view */}
+      {!loading && classes.length > 0 && (
+        <div style={{ marginTop: '2rem' }}>
+          <h3>Calendar View</h3>
+          <div style={{ height: '500px' }}>
+            <Calendar
+              localizer={localizer}
+              events={calendarEvents}
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: '100%' }}
+            />
+          </div>
+        </div>
       )}
     </div>
   );
